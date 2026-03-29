@@ -91,4 +91,12 @@ test.describe('Login Page - based on LoginTestCases.md', () => {
 		await expect(page).toHaveURL(/auth\/register/)
 		await expect(page.locator('h3')).toContainText('Customer registration')
 	})
+
+	// TC-LOG-010: Protect against SQL injection on login
+	test('[TC-492] TC-LOG-010 - protect against SQL injection', async () => {
+		await loginPage.login("customer@practicesoftwaretesting.com' -- ", "any_wrong_password_will_work")
+
+		await expect(loginPage.loginError).toBeVisible()
+		await expect(loginPage.loginError).toHaveText('Invalid email or password')
+	})
 })
