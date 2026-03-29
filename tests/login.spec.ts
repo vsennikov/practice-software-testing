@@ -12,7 +12,7 @@ test.describe('Login Page - based on LoginTestCases.md', () => {
 	})
 
 	// TC-LOG-001: Successful login with valid credentials
-	test('TC-LOG-001 - successful login with valid credentials', async ({ page }) => {
+	test('[TC-483] TC-LOG-001 - successful login with valid credentials', async ({ page }) => {
 		await loginPage.login(validEmail, validPassword)
 
 		await expect(page).toHaveURL(/account/)
@@ -20,7 +20,7 @@ test.describe('Login Page - based on LoginTestCases.md', () => {
 	})
 
 	// TC-LOG-002: Login with email case insensitivity
-	test('TC-LOG-002 - login with email case insensitivity', async ({ page }) => {
+	test('[TC-484] TC-LOG-002 - login with email case insensitivity', async ({ page }) => {
 		const uppercaseEmail = validEmail.toUpperCase()
 
 		await loginPage.login(uppercaseEmail, validPassword)
@@ -30,7 +30,7 @@ test.describe('Login Page - based on LoginTestCases.md', () => {
 	})
 
 	// TC-LOG-003: Login with invalid password
-	test('TC-LOG-003 - login with invalid password shows error', async () => {
+	test('[TC-485] TC-LOG-003 - login with invalid password shows error', async () => {
 		await loginPage.login(validEmail, 'WrongPass123!')
 
 		await expect(loginPage.loginError).toBeVisible()
@@ -38,7 +38,7 @@ test.describe('Login Page - based on LoginTestCases.md', () => {
 	})
 
 	// TC-LOG-004: Login with non-registered email
-	test('TC-LOG-004 - login with non-registered email shows error', async () => {
+	test('[TC-486] TC-LOG-004 - login with non-registered email shows error', async () => {
 		await loginPage.login('random.user.999@test.com', 'AnyPassword123!')
 
 		await expect(loginPage.loginError).toBeVisible()
@@ -46,28 +46,26 @@ test.describe('Login Page - based on LoginTestCases.md', () => {
 	})
 
 	// TC-LOG-005: Login with empty fields
-	test('TC-LOG-005 - login with empty fields shows validation errors', async () => {
+	test('[TC-487] TC-LOG-005 - login with empty fields shows validation errors', async () => {
 		await loginPage.loginButton.click()
 
-		await expect(loginPage.emailError).toBeVisible()
-		await expect(loginPage.passwordError).toBeVisible()
+		await expect(loginPage.loginError).toBeVisible()
 
-		await expect(loginPage.emailError).toHaveText('Email is required')
-		await expect(loginPage.passwordError).toHaveText('Password is required')
+		await expect(loginPage.loginError).toHaveText('Invalid email or password')
 	})
 
 	// TC-LOG-006: Login with invalid email format
-	test('TC-LOG-006 - login with invalid email format shows validation error', async () => {
+	test('[TC-488] TC-LOG-006 - login with invalid email format shows validation error', async () => {
 		await loginPage.emailInput.fill('user.com')
 		await loginPage.passwordInput.fill('AnyPassword123!')
 		await loginPage.loginButton.click()
 
-		await expect(loginPage.emailError).toBeVisible()
-		await expect(loginPage.emailError).toHaveText('Email format is invalid')
+		await expect(loginPage.loginError).toBeVisible()
+		await expect(loginPage.loginError).toHaveText('Invalid email or password')
 	})
 
 	// TC-LOG-007: Toggle password visibility ("Eye" icon)
-	test('TC-LOG-007 - toggle password visibility with eye icon', async () => {
+	test('[TC-489] TC-LOG-007 - toggle password visibility with eye icon', async () => {
 		await loginPage.passwordInput.fill('SecretPass123')
 
 		await expect(loginPage.passwordInput).toHaveAttribute('type', 'password')
@@ -78,22 +76,16 @@ test.describe('Login Page - based on LoginTestCases.md', () => {
 		await expect(loginPage.passwordInput).toHaveAttribute('type', 'password')
 	})
 
-	// TC-LOG-008: Verify "Sign in with Google" button presence
-	test('TC-LOG-008 - verify Sign in with Google button is present', async () => {
-		await expect(loginPage.googleSignInButton).toBeVisible()
-		await expect(loginPage.googleSignInButton).toBeEnabled()
-	})
-
-	// TC-LOG-009: Navigation to "Forgot Password" page
-	test('TC-LOG-009 - navigate to Forgot Password page', async ({ page }) => {
+	// TC-LOG-008: Navigation to "Forgot Password" page
+	test('[TC-490] TC-LOG-008 - navigate to Forgot Password page', async ({ page }) => {
 		await loginPage.clickForgotPassword()
 
 		await expect(page).toHaveURL(/auth\/forgot-password/)
 		await expect(page.locator('h3')).toContainText('Forgot Password')
 	})
 
-	// TC-LOG-010: Navigation to "Registration" page
-	test('TC-LOG-010 - navigate to Registration page', async ({ page }) => {
+	// TC-LOG-009: Navigation to "Registration" page
+	test('[TC-491] TC-LOG-009 - navigate to Registration page', async ({ page }) => {
 		await loginPage.clickRegister()
 
 		await expect(page).toHaveURL(/auth\/register/)

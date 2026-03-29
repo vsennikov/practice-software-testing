@@ -13,7 +13,9 @@
   "license": "ISC",
   "devDependencies": {
     "@playwright/test": "^1.53.1",
-    "@types/node": "^24.0.7"
+    "@testiny/automation": "^1.35.1",
+    "@types/node": "^24.0.7",
+    "dotenv": "^17.3.1"
   },
   "dependencies": {
     "@faker-js/faker": "^10.4.0",
